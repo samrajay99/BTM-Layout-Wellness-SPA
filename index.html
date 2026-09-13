@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BTM Layout Wellness Day & Night Spa | Luxury Body Massage & Therapy in HSR Layout, Bengaluru</title>
   <meta name="description" content="Experience premier relaxation at BTM Layout Wellness Day & Night Spa. Located opp. Salarpuria Serenity, HSR Layout, Bengaluru. Open Day & Night." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23121417'/%3E%3Cpath d='M32 48C18 43 13 33 20 24c5 1 10 5 12 11 2-6 7-10 12-11 7 9 2 19-12 24Z' fill='%23c5a059'/%3E%3Cpath d='M32 45V17M32 34c-5-7-10-9-15-9M32 34c5-7 10-9 15-9' fill='none' stroke='%23f5eedf' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E" />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -135,6 +136,19 @@
     }
 
     .brand-logo {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .brand-mark {
+      width: 2.75rem;
+      height: 2.75rem;
+      flex: 0 0 auto;
+    }
+
+    .brand-copy {
       display: flex;
       flex-direction: column;
     }
@@ -840,8 +854,15 @@
   <header class="main-header" id="header">
     <div class="container nav-wrapper">
       <a href="#" class="brand-logo">
-        <span class="brand-name">BTM Layout Wellness</span>
-        <span class="brand-tag">Day & Night Luxury Spa</span>
+        <svg class="brand-mark" viewBox="0 0 64 64" role="img" aria-label="BTM Layout Wellness logo">
+          <rect width="64" height="64" rx="16" fill="#121417" />
+          <path d="M32 48C18 43 13 33 20 24c5 1 10 5 12 11 2-6 7-10 12-11 7 9 2 19-12 24Z" fill="#c5a059" />
+          <path d="M32 45V17M32 34c-5-7-10-9-15-9M32 34c5-7 10-9 15-9" fill="none" stroke="#f5eedf" stroke-width="3" stroke-linecap="round" />
+        </svg>
+        <span class="brand-copy">
+          <span class="brand-name">BTM Layout Wellness</span>
+          <span class="brand-tag">Day & Night Luxury Spa</span>
+        </span>
       </a>
 
       <ul class="nav-menu">
@@ -849,7 +870,7 @@
         <li><a href="#treatments" class="nav-link">Treatments</a></li>
         <li><a href="#gallery" class="nav-link">Gallery</a></li>
         <li><a href="#location" class="nav-link">Directions</a></li>
-        <li><a href="#contact" class="btn-header">Book Session</a></li>
+        <li><a href="#bookingModal" class="btn-header" onclick="openBookingModal('General Appointment'); return false;">Book Session</a></li>
       </ul>
 
       <button class="mobile-toggle" aria-label="Toggle Navigation" onclick="toggleMobileNav()">☰</button>
@@ -876,7 +897,7 @@
   </section>
 
   <!-- Highlights Strip -->
-  <div class="container highlights-bar">
+  <div class="container highlights-bar" id="about">
     <div class="highlights-grid">
       <div class="h-card fade-in-up">
         <div class="h-icon">🌙</div>
@@ -1086,9 +1107,9 @@
             <a href="https://maps.app.goo.gl/2f1YdExMLKFrCtU36" target="_blank" class="btn btn-gold" style="font-size: 0.88rem; padding: 0.75rem 1.4rem;">
               🗺️ Open in Google Maps
             </a>
-            <button class="btn btn-outline" onclick="openBookingModal('General Query')" style="font-size: 0.88rem; padding: 0.75rem 1.4rem;">
+            <a id="locationWhatsappBtn" href="#" target="_blank" rel="noopener" class="btn btn-outline" style="font-size: 0.88rem; padding: 0.75rem 1.4rem;">
               💬 Chat on WhatsApp
-            </button>
+            </a>
           </div>
         </div>
 
@@ -1111,7 +1132,7 @@
   <!-- Persistent Floating Action Icons (Call & WhatsApp) -->
   <div class="floating-actions">
     <!-- WhatsApp Floating Action -->
-    <a href="javascript:void(0)" onclick="openBookingModal('Direct WhatsApp Query')" class="float-btn float-whatsapp" aria-label="Chat on WhatsApp">
+    <a id="floatingWhatsappBtn" href="#" target="_blank" rel="noopener" class="float-btn float-whatsapp" aria-label="Chat on WhatsApp">
       <span>💬</span>
       <span class="float-tooltip">Chat on WhatsApp</span>
     </a>
@@ -1129,14 +1150,16 @@
   </div>
 
   <!-- WhatsApp Booking Modal -->
-  <div class="modal" id="bookingModal">
+  <div class="modal" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle" onclick="closeBookingModalOnBackdrop(event)">
     <div class="booking-modal-card">
       <button class="modal-close" onclick="closeBookingModal()" style="top:15px; right:15px; color:#aaa;">&times;</button>
-      <h3>Book Your Therapy</h3>
+      <h3 id="bookingModalTitle">Book Your Therapy</h3>
       <p style="color: var(--text-muted); font-size: 0.88rem;">Select your preferences to connect immediately with our front desk on WhatsApp.</p>
       
       <form class="booking-form" onsubmit="handleBookingSubmit(event)">
-        <input type="text" id="custName" class="form-control" placeholder="Your Full Name" required />
+        <label for="custName">Your Full Name</label>
+        <input type="text" id="custName" class="form-control" placeholder="Your Full Name" autocomplete="name" required />
+        <label for="custService">Choose a Therapy</label>
         <select id="custService" class="form-control" required>
           <option value="Swedish Relaxation Massage">Swedish Relaxation Massage</option>
           <option value="Deep Tissue Therapy">Deep Tissue Therapy</option>
@@ -1145,7 +1168,9 @@
           <option value="Foot Reflexology">Acupressure Foot Reflexology</option>
           <option value="Body Polishing & Scrub">Body Polishing & Scrub</option>
         </select>
+        <label for="custDate">Preferred Date</label>
         <input type="date" id="custDate" class="form-control" required />
+        <label for="custTime">Preferred Time</label>
         <input type="time" id="custTime" class="form-control" required />
         <button type="submit" class="btn btn-gold" style="width: 100%; border-radius: 8px; margin-top: 0.5rem;">
           Continue to WhatsApp Booking ➜
@@ -1218,10 +1243,14 @@
 
       animatedElements.forEach(el => observer.observe(el));
       
-      // Default date picker to today
-      const today = new Date().toISOString().split('T')[0];
+      // Use the visitor's local date for the booking minimum and default.
+      const now = new Date();
+      const today = [now.getFullYear(), String(now.getMonth() + 1).padStart(2, '0'), String(now.getDate()).padStart(2, '0')].join('-');
       const datePicker = document.getElementById('custDate');
-      if (datePicker) datePicker.value = today;
+      if (datePicker) {
+        datePicker.min = today;
+        datePicker.value = today;
+      }
     });
 
     // Lightbox modal functionality
@@ -1255,6 +1284,17 @@
       document.getElementById('bookingModal').classList.remove('active');
     }
 
+    function closeBookingModalOnBackdrop(event) {
+      if (event.target.id === 'bookingModal') closeBookingModal();
+    }
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeBookingModal();
+        closeLightbox();
+      }
+    });
+
     function handleBookingSubmit(event) {
       event.preventDefault();
       const name = document.getElementById('custName').value.trim();
@@ -1262,11 +1302,29 @@
       const date = document.getElementById('custDate').value;
       const time = document.getElementById('custTime').value;
 
-      const message = `Hello *BTM Layout Wellness Day & Night Spa*,%0A%0AI would like to schedule an appointment:%0A• *Client Name:* ${encodeURIComponent(name)}%0A• *Therapy:* ${encodeURIComponent(service)}%0A• *Preferred Date:* ${date}%0A• *Time Slot:* ${time}%0A%0APlease confirm slot availability. Thank you!`;
+      const message = [
+        'Hello BTM Layout Wellness Day & Night Spa,',
+        '',
+        'I would like to schedule an appointment:',
+        `Client Name: ${name}`,
+        `Therapy: ${service}`,
+        `Preferred Date: ${date}`,
+        `Time Slot: ${time}`,
+        '',
+        'Please confirm slot availability. Thank you!'
+      ].join('\n');
 
-      window.open(`https://wa.me/${SPA_CONFIG.whatsappPhone}?text=${message}`, '_blank');
+      window.open(`https://wa.me/${SPA_CONFIG.whatsappPhone}?text=${encodeURIComponent(message)}`, '_blank');
       closeBookingModal();
     }
+
+    function buildWhatsAppLink(message) {
+      return `https://wa.me/${SPA_CONFIG.whatsappPhone}?text=${encodeURIComponent(message)}`;
+    }
+
+    const directWhatsAppMessage = 'Hello BTM Layout Wellness Day & Night Spa, I would like to know more about your services and available slots.';
+    document.getElementById('locationWhatsappBtn').href = buildWhatsAppLink(directWhatsAppMessage);
+    document.getElementById('floatingWhatsappBtn').href = buildWhatsAppLink(directWhatsAppMessage);
 
     // Header scroll background effect
     window.addEventListener('scroll', () => {
